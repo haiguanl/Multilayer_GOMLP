@@ -17,8 +17,11 @@ gomlp
 surrogate
 ├── surrogate_model_new.py
 ├── tmp
+├── output.csv (e.g. output_50nets.csv)
 ├── color_map.pkl
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
+utils
+├── generate_testcases.py
 ```
 
 Code running instructions: 
