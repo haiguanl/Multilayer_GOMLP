@@ -8,6 +8,18 @@ This project focusing on extending the GOMLP to multilayer cases. The GOMLP (pub
 
 
 Project strctures: 
+```
+gomlp
+├── MLGO_2_with_plots.py
+├── tmp
+├── color_map.pkl
+├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
+surrogate
+├── surrogate_model_new.py
+├── tmp
+├── color_map.pkl
+├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
+```
 
 Code running instructions: 
 #### 1. Running (2D) GOMLP: 
