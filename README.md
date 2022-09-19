@@ -41,6 +41,9 @@ Key parameters of GOMLP (in MLGO_2_with_plots.py, class Genetic):
 
 Issues: 
 
+Note: 
+- GOMLP now generate images as long as score (fit accuracy > 0.5)
+
 For more info, refer to the original repo: https://github.com/vinayp173/GOMLP-2
 
 #### 2. Running surrogate modoels: 
