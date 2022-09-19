@@ -68,6 +68,10 @@ Under directory ```utils```, specificy the problem pin files and combination of 
  ```
  python generate_testcases.py
  ```
+ Key parameters: 
+ - number_of_nets: length of netliist that will be used to choose nets when generating random problems
+ - number_of_nets_chosen: number of nets for each problems (randomly chosen from the same netlist)
+ - number_of_problems: number of problems that need to be generated
 The generated problem file is ```output.csv```, which contains the net names and their combinations
 
 #### Note:
