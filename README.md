@@ -48,7 +48,7 @@ Note:
 
 For more info, refer to the original repo: https://github.com/vinayp173/GOMLP-2
 
-#### 2. Running surrogate modoels: 
+#### 2. Running surrogate models: 
 Surrogate models developed so far: MLP, SVC, MST (in progress)
 Files needed:
   - pin_file (e.g. pins_BeagleBone_RevC_human.csv _[pin config for all nets and layers])
