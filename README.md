@@ -35,6 +35,9 @@ Under directory ```gomlp```, specify the problems/gomlp parameters (net name, la
 ```
 python MLGO_2_with_plots.py 
 ```
+Problem specifications (to be specified in ```MLGO_2_with_plots.py```): 
+- Net list 
+- Net list combination of different problems (based on loaded problem files e.g. output.csv) 
 Key parameters of GOMLP (in MLGO_2_with_plots.py, class Genetic):
 - num_of_generations
 - sol_per_pop
