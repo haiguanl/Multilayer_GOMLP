@@ -23,6 +23,7 @@ surrogate
 utils
 ├── generate_testcases.py
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
+├── output.csv
 ```
 
 Code running instructions: 
@@ -67,7 +68,7 @@ Under directory ```utils```, specificy the problem pin files and combination of 
  ```
  python generate_testcases.py
  ```
-
+The generated problem file is ```output.csv```, which contains the net names and their combinations
 
 #### Note:
 
