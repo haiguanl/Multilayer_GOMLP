@@ -22,6 +22,7 @@ surrogate
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
 utils
 ├── generate_testcases.py
+├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
 ```
 
 Code running instructions: 
@@ -59,6 +60,14 @@ python surrogate_model_new.py
 Specifications and parameters:
 
 #### 3. Running problem generation code: 
+The code ```generate_testcases.py``` generate problems with different combinations of nets for a specified set of nets. 
+Fiiles needed: 
+  - pin_file (e.g. pins_BeagleBone_RevC_human.csv)
+Under directory ```utils```, specificy the problem pin files and combination of nets, and run:
+ ```
+ python generate_testcases.py
+ ```
+
 
 #### Note:
 
