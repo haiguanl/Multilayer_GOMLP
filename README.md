@@ -26,7 +26,15 @@ utils
 
 Code running instructions: 
 #### 1. Running (2D) GOMLP: 
+File needed:
+  - pin_file (e.g. pins_BeagleBone_RevC_human.csv _[pin config for all nets and layers])
+  - colormap.pkl (optional, will automatically generate if not exists)
+Under directory gomlp, specify the problems parameters (net name, layer name, etc. in MLGO_2_with_plots.py) and run the following 
+```
+python MLGO_2_with_plots.py 
+```
 
+For more info, refer to the original repo: https://github.com/vinayp173/GOMLP-2
 
 #### 2. Running surrogate modoels: 
 
