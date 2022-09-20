@@ -45,7 +45,8 @@ Key parameters of GOMLP (in MLGO_2_with_plots.py, class Genetic):
 - handles/metaball parameters
 - weights of loss terms: default settings: {'num_islands': 0.9, 'disjoint_distance': 0.9, 'island_length': 0.30 , 'contour_dtm':0.50}
 
-Issues: 
+Output files:
+- #EIs for different problems (e.g. gomlp_results_50nets.csv)
 
 Note: 
 - GOMLP now generate images as long as score (fit accuracy > 0.5)
