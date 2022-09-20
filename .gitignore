@@ -5,6 +5,7 @@ __pycache__/
 
 # Customize
 gomlp/tmp
+gomlp/results
 .DS_Store
 surrogate/.DS_Store
 
