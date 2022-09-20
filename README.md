@@ -3,7 +3,7 @@
 This project focusing on extending the GOMLP to multilayer cases. The GOMLP (published in DAC 2022) solves 2D power plane generation problem with combination of MLP and evolutionary method, figrue below shows the GOMLP method. 
 
 <p align="center">
-<img src="Fig/GOMLP_flow.png" alt="drawing" width="800">
+<img src="Fig/GOMLP_flow.png" alt="drawing" width="600">
 </p>
 
 
