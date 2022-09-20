@@ -719,19 +719,45 @@ if __name__ == '__main__':
     # ]
     
 
-    internal_nets_list = [
-    'AIN6', 'DDR_A1', 'P_MUXOUT', 'RMII1_CRS_DV', 'MMC0_CMD', 'AIN1', 
-    'DDR_D14', 'GPIO2_23', 'OSC0_OUT', 'DDR_VREF', 'EMU4R', 'LDO3', 
-    'LEDBA', 'UART0_RX', 'NC2', 'PDDR_D4', 'DDR_A2', 'GPIO1_15',
-    'CAP_VDD_SRAM_MPU', 'CAP_VBB_MPU', 'UART2_RXD', 'TIMER4', 'AIN7', 'TIMER5' 
-    ]
+    # internal_nets_list = [
+    # 'AIN6', 'DDR_A1', 'P_MUXOUT', 'RMII1_CRS_DV', 'MMC0_CMD', 'AIN1', 
+    # 'DDR_D14', 'GPIO2_23', 'OSC0_OUT', 'DDR_VREF', 'EMU4R', 'LDO3', 
+    # 'LEDBA', 'UART0_RX', 'NC2', 'PDDR_D4', 'DDR_A2', 'GPIO1_15',
+    # 'CAP_VDD_SRAM_MPU', 'CAP_VBB_MPU', 'UART2_RXD', 'TIMER4', 'AIN7', 'TIMER5' 
+    # ]
     
+    # internal_nets_list = ['SYS_5V', 'PMIC_PGOOD', 'ACBUS7', 'PDDR_D12', 'GPIO0_7', 'DDR_D2', 'DDR_A12', 
+    # 'GPIO1_7', 'PMIC_INT_PU', 'SYS_VOLT', 'BCBUS5', 'DDR_A7', 'DDR_A9', 'AIN0', 'NC', 'XTIN', 'RFU1', 
+    # '3', 'TESTOUT', 'GPIO1_30', 'PDDR_A13', 'LEDBA', 'FT_DM', 'BCBUS2', 'PHY_XTAL1', 'F_ADBUS3', 'DDR_D1',
+    #  'RMII1_RXDV', 'AIN6', 'I2C0_SCL', 'PWR_LED', 'DDR_CLKN', 'GPIO1_3', 'PDDR_BA0', 'GPIO1_4', 'MDIO_DATA',
+    #   'PDDR_A4', 'GPIO1_6', 'PDDR_BA1', 'PDDR_A10', 'PDDR_CSN', 'GPIO0_26', 'VDD_3V3EXP', 'NC2', 'P_INT_LDO',
+    #    'PDDR_D13', 'GPIO1_2', 'P_BYPASS', 'P_MUXIN', 'RFU2']
+
+ #    internal_nets_list =  ['RMII1_COL' 'COL/CRS_DV/MODE2' 'RMII1_RXDV' 'GPIO1_17' 'BCBUS6' 'BCBUS0'
+ # 'F_ADBUS0' 'F_EESK' 'BL_SINK1' 'MCASP0_ACLKR/EQEP0A_IN/MCASP0_A'
+ # 'PDDR_A9' 'DDR_A14' 'USBDP_UP' 'DDR_DQM1' 'PDDR_A8' 'USB0_VBUS_PWR'
+ # 'GPIO2_9' 'N21069846' '3' 'PDDR_CKE' 'PWR_LEDR' 'BAT_TEMP' 'BL_OUT'
+ # 'PDDR_DQSN0' 'PDDR_DQS0' 'VREFP_ADC' 'VDCDC1' 'VDD_FTVPLL' 'PDDR_D13'
+ # 'DDR_A3' 'UART2_RXD' 'RMII1_RXCLK' 'PHY_XTAL2' 'PDDR_D14' 'TIMER6'
+ # 'XDMA_EVENT_INTR0' 'P_WAKEUP' 'SPI1_D0' 'AIN4' 'E' 'N21185557'
+ # 'PHY_XTAL1' 'UART4_TXD' 'SYS_5V' 'GPIO1_29' 'I' 'NC0' 'BDBUS4' 'MDIO_CLK'
+ # 'PDDR_DQSN1']
+
+    problem_files = "output_50nets.csv"
+    problems = np.loadtxt(problem_files,delimiter=",",dtype=str)
+    netlist = problems[0,:]
+    print("netlist: ",problems[0,:])
+
+    internal_nets_list = [netlist[j] for j,i in enumerate(problems[1,:]) if i=="1"]
+    print("internal_nets_list: ",internal_nets_list)
+
     # short_net_name = list(itertools.permutations("ABCDE"))
     nets = []
     for ind,net in enumerate(internal_nets_list):
         # print("short_net_name[ind]: ","".join(short_net_name[ind]))
         # nets.append("".join(short_net_name[ind]))
         nets.append(net)
+
     print("Nets: ",nets)
     GOMLP2.run(pin_csv_file, color_dict, layer_name, nets)
 
