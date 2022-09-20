@@ -33,6 +33,7 @@ utils
 ├── generate_testcases.py
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
 ├── output.csv
+├── analyze_surrogate_gomlp_corr
 ```
 
 Code running instructions: 
