@@ -210,20 +210,22 @@ def generate_test_cases_from_csv(combination_csv,index):
 	comb = pd.read_csv(combination_csv)
 	print("Comibnations of nets: ",comb)
 	column_names = list(comb)
+	# print("column_names: ",column_names)
 	# internal_nets = {'GNDA_ADC':'A','VDDS_DDR':'B','VDD_PHYA':'C','VDD_CORE':'D',
 	#                'VDD_1V8FT':'E','GND_EARTH':'F','VDD_MPU':'G','VDD_3V3B':'H',
 	#                'VDD_1V8':'I'}
 	
-	internal_nets_list = [
-	'AIN6', 'DDR_A1', 'P_MUXOUT', 'RMII1_CRS_DV', 'MMC0_CMD', 'AIN1', 
-	'NINT/TXER/TXD4', 'DDR_D8', 'TXP', 'PDDR_D11', 'NC1', 'VDD_FTVPLL',
-	 'DDR_D14', 'GPIO2_23', 'OSC0_OUT', 'DDR_VREF', 'EMU4R', 'LDO3', 'LEDBA',
-	  'UART0_RX', 'NC2', 'PDDR_D4', 'DDR_A2', 'GPIO1_15', 'PDDR_A9', 'TDIS',
-	   'LEDCA', 'DDR_A12', 'OSC1_OUT1', 'PDDR_A4', 'UART4_TXD', 'PDDR_D7', 'LDO4',
-	    'CAP_VDD_SRAM_MPU', 'CAP_VBB_MPU', 'UART2_RXD', 'TIMER4', 'AIN7', 'TIMER5',
-	     'CAP_VDD_SRAM_CORE', 'LEDDC', 'USB1_DRVVBUS', 'BCBUS0', 'BL_SINK1', 'GPIO1_16',
-	      'JTAG_EMU0', 'COL/CRS_DV/MODE2', 'GRNA', 'O\\C\\S\\2\\', 'GPIO1_30'
-	 ]
+	# internal_nets_list = [
+	# 'AIN6', 'DDR_A1', 'P_MUXOUT', 'RMII1_CRS_DV', 'MMC0_CMD', 'AIN1', 
+	# 'NINT/TXER/TXD4', 'DDR_D8', 'TXP', 'PDDR_D11', 'NC1', 'VDD_FTVPLL',
+	#  'DDR_D14', 'GPIO2_23', 'OSC0_OUT', 'DDR_VREF', 'EMU4R', 'LDO3', 'LEDBA',
+	#   'UART0_RX', 'NC2', 'PDDR_D4', 'DDR_A2', 'GPIO1_15', 'PDDR_A9', 'TDIS',
+	#    'LEDCA', 'DDR_A12', 'OSC1_OUT1', 'PDDR_A4', 'UART4_TXD', 'PDDR_D7', 'LDO4',
+	#     'CAP_VDD_SRAM_MPU', 'CAP_VBB_MPU', 'UART2_RXD', 'TIMER4', 'AIN7', 'TIMER5',
+	#      'CAP_VDD_SRAM_CORE', 'LEDDC', 'USB1_DRVVBUS', 'BCBUS0', 'BL_SINK1', 'GPIO1_16',
+	#       'JTAG_EMU0', 'COL/CRS_DV/MODE2', 'GRNA', 'O\\C\\S\\2\\', 'GPIO1_30'
+	#  ]
+	internal_nets_list = column_names
 	short_net_name = list(itertools.permutations("ABCDE"))
 	internal_nets = {}
 	for ind,net in enumerate(internal_nets_list):
@@ -273,7 +275,8 @@ if __name__ == "__main__":
 
 	# Get test case:
 	# testcase_ids = [i for i in range(129)]
-	testcase_ids = [i for i in range(1)]
+	number_of_problems = 50 
+	testcase_ids = [i for i in range(number_of_problems)]
 	# test_cases = generate_test_cases_from_csv('output_6plus.csv',testcase_ids) 
 	test_cases = generate_test_cases_from_csv('output_50nets.csv',testcase_ids) 
 
@@ -282,10 +285,10 @@ if __name__ == "__main__":
 	# Run surrogate model
 	run_surrogate = True
 	if run_surrogate:  
-		for max_iteration in [100000]:
-			# model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
-		    # verbose=True, shuffle=True)
-			model = SVC(gamma='auto')
+		for max_iteration in [10000]:
+			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
+		    verbose=False, shuffle=True)
+			# model = SVC(gamma='auto')
 			results = group_test_runner(model,test_cases); print("Results: ", results); save_dict(results,'MLP_ite{ite}'.\
 				format(ite=max_iteration))
 
