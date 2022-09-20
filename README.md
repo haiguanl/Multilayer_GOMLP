@@ -21,6 +21,8 @@ gomlp
 ├── tmp
 ├── color_map.pkl
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
+├── results
+    ├── #EIs results file (e.g. gomlp_results_50nets.csv)
 surrogate
 ├── surrogate_model_new.py
 ├── tmp
