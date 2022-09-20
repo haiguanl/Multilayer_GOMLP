@@ -6,8 +6,13 @@ __pycache__/
 # Customize
 gomlp/tmp
 gomlp/results
+
 .DS_Store
 surrogate/.DS_Store
+surrogate/tmp
+surrogate/MLP*
+surrogate/SVC*
+
 
 # C extensions
 *.so
