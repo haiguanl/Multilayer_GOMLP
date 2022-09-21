@@ -287,7 +287,7 @@ class Genetic(object):
     # fixed_metaballs: list - fixed handle generated from pins of net
     # parameters:
     # solution per population : to 
-    def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file):
+    def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
         self.num_of_generations = 5
         self.sol_per_pop = 4
@@ -300,6 +300,7 @@ class Genetic(object):
         self.weights = {'num_islands': 0.9, 'disjoint_distance': 0.9, 'island_length': 0.30 , 'contour_dtm':0.50}
         self.best_fitness = []
         self.results_file = results_file
+        self.problem_id = problem_id
 
     def init_population(self):
         new_population = []
@@ -419,10 +420,10 @@ class Genetic(object):
                             [fy[j] for j in range(len(fz)) if fz[j] == i], c=[self.color_map[net]['rgb']])
 
             plt.axis('off')
-            plt.savefig("tmp/"+str(index) +'.png')
+            plt.savefig("tmp/"+"problem"+str(self.problem_id)+"gen"+str(gen)+"ind"+str(index) + '.png')
             # fig.show()
 
-            image = cv2.imread("tmp/"+str(index) + '.png')
+            image = cv2.imread("tmp/"+"problem"+str(self.problem_id)+"gen"+str(gen)+"ind"+str(index) + '.png')
             # weights = {'num_islands':100,'disjoint_distance':1,'island_length': 1,'DMT':1}
 
             for net in self.nets:
@@ -657,7 +658,7 @@ class Parameter(object):
 class GOMLP2:
 
   @staticmethod
-  def run(pin_csv_file, color_dict, layer_name, nets,results_file):
+  def run(pin_csv_file, color_dict, layer_name, nets,results_file,problem_id):
       pins = pd.read_csv(pin_csv_file)
       if not file_exists(color_dict):
           color_map = ColorHelper.generateNcolors(nets)
@@ -690,7 +691,7 @@ class GOMLP2:
       # plt.clf()
       # Helper.display_metaballs([[]],fixed_metaballs,color_map,nets,[])
 
-      genAlgo = Genetic(nets, fixed_metaballs, color_map, num_handle,image_dtm,results_file)
+      genAlgo = Genetic(nets, fixed_metaballs, color_map, num_handle,image_dtm,results_file,problem_id)
       best_params = genAlgo.run(True)
       return best_params
 
@@ -759,7 +760,8 @@ if __name__ == '__main__':
 
     print("netlist: ",problems[0,:])
 
-    for problem_ind in range(1,51):
+    # for problem_ind in range(1,51):
+    for problem_ind in range(1,4):
         internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
         print("internal_nets_list: ",internal_nets_list)
 
@@ -771,7 +773,7 @@ if __name__ == '__main__':
             nets.append(net)
 
         print("Nets: ",nets)
-        GOMLP2.run(pin_csv_file, color_dict, layer_name, nets,results_file)
+        GOMLP2.run(pin_csv_file, color_dict, layer_name, nets,results_file,problem_ind)
 
 
 # In[ ]:
