@@ -14,7 +14,7 @@ The proposed method for multilayer GOMLP is as follows:
 </p>
 
 
-Project strctures: 
+## Project strctures: 
 ```
 gomlp
 ├── MLGO_2_with_plots.py
@@ -36,7 +36,7 @@ utils
 ├── analyze_surrogate_gomlp_corr
 ```
 
-Code running instructions: 
+## Code running instructions: 
 #### 1. Running (2D) GOMLP: 
 Files needed:
   - pin_file (e.g. pins_BeagleBone_RevC_human.csv _[pin config for all nets and layers])
