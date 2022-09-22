@@ -13,6 +13,8 @@ surrogate/.DS_Store
 surrogate/tmp
 surrogate/MLP*
 surrogate/SVC*
+surrogate/Tree*
+
 
 
 # C extensions
