@@ -17,6 +17,9 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
 from matplotlib.axes._axes import _log as matplotlib_axes_logger
 from sklearn.svm import SVC
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import minimum_spanning_tree
+from shapely.geometry import LineString
 
 import itertools
 
@@ -84,6 +87,66 @@ class Helper(object):
 				disjoint_distance += sum(min_dst)
 		num_islands -= len(nets)
 		return [num_islands, disjoint_distance, island_length]
+
+	@staticmethod 
+	def generate_tree_for_problems(temp_net_coord_total):
+		# Generate minimum spanning tree for all nets and check intersection 
+		net_line_segment_total = []
+		for net in temp_net_coord_total[0]:
+			net_line_segment = []
+			# print(net)
+			# print("Debug: new net\n")
+			plt.scatter(net[:,0],net[:,1],s=10)
+			# generate MST
+			dis_mat = np.zeros((net.shape[0],net.shape[0]))
+			for i in range(net.shape[0]-1):
+				for j in range(i+1,net.shape[0]):
+					dis_mat[i,j] = np.linalg.norm(
+						net[i,[0,1]]-net[j,[0,1]])
+			X = csr_matrix(dis_mat)
+			Tcsr = minimum_spanning_tree(X); T = Tcsr.toarray().astype(int)
+			indices_MST = np.nonzero(T)
+			# print("Debug indices_MST: ",indices_MST)
+			for i in range(len(indices_MST[0])):
+				pin1 = net[indices_MST[0][i],:]
+				pin2 = net[indices_MST[1][i],:]
+				plt.plot([pin1[0],pin2[0]],[pin1[1],pin2[1]],'k')
+				net_line_segment.append([(pin1[0],pin1[1]),(pin2[0],pin2[1])])
+			net_line_segment_total.append(net_line_segment)
+
+			# Tcsr = mst(X)
+		# print("Debug total line segment: ",len(net_line_segment_total))
+		# count the number of intersections of all nets 
+		intersections = 0 
+		for i,j in enumerate(net_line_segment_total):
+			for k in range(i+1,len(net_line_segment_total)):
+				net1 = net_line_segment_total[i]
+				net2 = net_line_segment_total[k]
+				# print("Net1: ",net1)
+				# print("Net2: ",net2)
+				for m in net1:
+					for n in net2: 
+						# print("Debug: n",n)
+						# print("Debug: m",m)
+						line1 = LineString([m[0],m[1]])
+						line2 = LineString([n[0],n[1]])
+						if line1.intersects(line2): 
+							intersections+=1
+
+		# for i in range(len(net_line_segment_total)-1):
+			# for j in range(i+1,len(net_line_segment_total)):
+				# line1 = LineString([net_line_segment_total[i][0],net_line_segment_total[i][1]])
+				# line2 = LineString([net_line_segment_total[j][0],net_line_segment_total[j][1]])
+				# if line1.intersect(line2):
+					# intersections += 1 
+					# print("Check ...")
+		# print("Debug intersections: ", intersections)		
+		# plt.show()
+		# plt.show(block=False)
+		# plt.pause(2)
+		# plt.close()
+		return intersections
+
 
 class Parameter(object):
 	board_height, board_width = 6 * 1e10, 9 * 1e10
@@ -154,7 +217,7 @@ class SurrogateModel(object):
 
 class SurrogateRunner(object):
 	@staticmethod
-	def run(color_dict,pin_csv_file,layer_name,nets,model,index):
+	def run(color_dict,pin_csv_file,layer_name,nets,model,index,tree_model):
 		# print(color_dict, pin_csv_file, layer_name,nets)
 		color_map = None
 		with open(color_dict, 'rb') as file:
@@ -162,41 +225,58 @@ class SurrogateRunner(object):
 
 		pins = pd.read_csv(pin_csv_file)
 
-		handles = []
+		handles = []; temp_net_coord_total = []
 		for i, layer_name in enumerate(layer_name):
 			layer = pins.loc[pins['Layer'] == layer_name]
 			# print("Debug layer: ",layer)
+			temp_net_coord = []
 			for j in range(len(nets)):
 				net_pins = layer.loc[layer['Net'] == nets[j]]
 				net_pins = net_pins[['X', 'Y']]
 				net_coord = net_pins.to_numpy()
+				temp_net_coord.append(net_coord)
+				# print("Debug Net coord: ",net_coord)
 				handles += Helper.convert_to_handle_list(net_coord, j)
-		# print("Debug net_coord: ",net_coord)
+			temp_net_coord_total.append(temp_net_coord)
+		# print("Debug temp_net_coord_total: ",temp_net_coord_total)
+		if tree_model:
+			intersections = Helper.generate_tree_for_problems(temp_net_coord_total)
+			# cost_func = [index]
+			# cost_func += intersections
+			# surrogate_model = SurrogateModel(color_map)
+			# return cost_func
+
 		surrogate_model = SurrogateModel(color_map)
 		boundary_image = surrogate_model.train_and_generate_boundary(model,handles,index,nets)
 		cost_func = [index]
-		cost_func += Helper.calculate_cost_from_image(boundary_image,color_map,nets)
+		if tree_model: 
+			cost_func += [intersections]
+		else:
+			cost_func += Helper.calculate_cost_from_image(boundary_image,color_map,nets)
 		# print("Debug cosf_func: ",cost_func)
 		return cost_func
 
 
 
-def group_test_runner(model,list_nets):
+def group_test_runner(model,list_nets,tree_model):
 	color_dict = 'color_map.pkl'
 	pin_csv_file = "pins_BeagleBone_RevC_human_singleLayer.csv"
 	layer_name = ["LYR5_PWR"]
 	results = collections.defaultdict(list)
 	ei_results = collections.defaultdict(int)
-
+	# tree_model = True
+	# print("Debug: list_nets: ",len(list_nets))
 	with concurrent.futures.ProcessPoolExecutor() as executor:
 		# print("Running in parallel...")
 		index = [i for i in range(len(list_nets))]
 		models = [model]*len(list_nets)
+		tree_model = [tree_model]*len(list_nets)
 		color_dict = [color_dict]*len(list_nets)
 		pin_csv_file = [pin_csv_file]*len(list_nets)
 		layer_name = [layer_name]*len(list_nets)
-		cost_func = executor.map(SurrogateRunner.run, color_dict,pin_csv_file,layer_name,list_nets,models,index)
+		cost_func = executor.map(SurrogateRunner.run, color_dict,pin_csv_file,layer_name,list_nets,models,index,tree_model)
 		print("cost_func: ",cost_func)
+
 		for cf in cost_func: 
 			ei_results[cf[0]] = cf[1]
 			results[cf[0]] = cf
@@ -283,14 +363,16 @@ if __name__ == "__main__":
 	print("Test cases: ",test_cases)
 
 	# Run surrogate model
-	run_surrogate = True
+	run_surrogate = True; tree_model = True
 	if run_surrogate:  
 		for max_iteration in [10000]:
 			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
 		    verbose=False, shuffle=True)
 			# model = SVC(gamma='auto')
-			results = group_test_runner(model,test_cases); print("Results: ", results); save_dict(results,'MLP_ite{ite}'.\
-				format(ite=max_iteration))
+			results = group_test_runner(model,test_cases,tree_model)
+			print("Results: ", results)
+			# save_dict(results,'MLP_ite{ite}'.format(ite=max_iteration))
+			save_dict(results,'Tree')
 
 
 	# model = SVC(kernel='rbf')
