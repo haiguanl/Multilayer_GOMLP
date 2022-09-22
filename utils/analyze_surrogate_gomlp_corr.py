@@ -7,7 +7,9 @@ from sklearn.metrics import r2_score
 from sklearn.linear_model import LinearRegression
 from scipy import stats 
 
-surrogate_results_file = "../surrogate/MLP_ite10000.xlsx"
+surrogate_results_file = "../surrogate/SVC.xlsx"
+# surrogate_results_file = "../surrogate/MLP_ite10000.xlsx"
+
 gomlp_results_file = "../gomlp/results/gomlp_results_50nets.csv"
 
 
@@ -47,7 +49,7 @@ print("R score: ",r); print("Slope: ",slope); print("Intercept: ",intercept)
 
 # plot scatter
 plt.scatter(surrogate_results_list,gomlp_results,color="r",s=10)
-plt.xlabel("Surrogate: MLP")
+plt.xlabel("Surrogate: SVC")
 plt.ylabel("GOMLP")
 plt.plot(np.linspace(min(surrogate_results_list),max(surrogate_results_list),1000),
 	slope*np.linspace(min(surrogate_results_list),max(surrogate_results_list),1000)+intercept,label="R score: "+str(r)[:5])
