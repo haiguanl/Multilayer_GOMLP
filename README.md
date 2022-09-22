@@ -89,6 +89,11 @@ Under directory ```utils```, specificy the problem pin files and combination of 
  - number_of_problems: number of problems that need to be generated
 The generated problem file is ```output.csv```, which contains the net names and their combinations
 
+#### 3. Analysis code:
+The following codes are used for analyzing the results:
+- ```analyze_surrogate_gomlp_corr.py```: analyzing the correlation between results (#EIs) from GOMLP and surrogate models (MLP, SVC, etc.)
+
+
 #### Note:
 
 
