@@ -237,6 +237,7 @@ class SurrogateRunner(object):
 				temp_net_coord.append(net_coord)
 				# print("Debug Net coord: ",net_coord)
 				handles += Helper.convert_to_handle_list(net_coord, j)
+				# print("Debug handles: ",handles)
 			temp_net_coord_total.append(temp_net_coord)
 		# print("Debug temp_net_coord_total: ",temp_net_coord_total)
 		if tree_model:
@@ -355,7 +356,7 @@ if __name__ == "__main__":
 
 	# Get test case:
 	# testcase_ids = [i for i in range(129)]
-	number_of_problems = 50 
+	number_of_problems = 50
 	testcase_ids = [i for i in range(number_of_problems)]
 	# test_cases = generate_test_cases_from_csv('output_6plus.csv',testcase_ids) 
 	test_cases = generate_test_cases_from_csv('output_50nets.csv',testcase_ids) 
@@ -363,7 +364,7 @@ if __name__ == "__main__":
 	print("Test cases: ",test_cases)
 
 	# Run surrogate model
-	run_surrogate = True; tree_model = True
+	run_surrogate = True; tree_model = False
 	if run_surrogate:  
 		for max_iteration in [10000]:
 			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
