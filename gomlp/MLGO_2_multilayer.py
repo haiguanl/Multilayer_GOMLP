@@ -679,7 +679,7 @@ class GOMLP2:
               fixed_metaballs += Helper.convert_to_handle_list(net_coord, j)
 
       num_handle = 30
-      print(color_map)
+      # print(color_map)
       image = Helper.display_fixed_pins(fixed_metaballs)
       image[np.where(image < 255)] = 0
       image[np.where(image == 255)] = 1
@@ -761,19 +761,21 @@ if __name__ == '__main__':
     print("netlist: ",problems[0,:])
 
     # for problem_ind in range(1,51):
-    for problem_ind in range(1,4):
-        internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
-        print("internal_nets_list: ",internal_nets_list)
+    
+    problem_ind = 1
+    internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
+    print("internal_nets_list: ",internal_nets_list)
+    print("net_list length: ",len(internal_nets_list))    
 
-        # short_net_name = list(itertools.permutations("ABCDE"))
-        nets = []
-        for ind,net in enumerate(internal_nets_list):
-            # print("short_net_name[ind]: ","".join(short_net_name[ind]))
-            # nets.append("".join(short_net_name[ind]))
-            nets.append(net)
+    # short_net_name = list(itertools.permutations("ABCDE"))
+    nets = []
+    for ind,net in enumerate(internal_nets_list):
+        # print("short_net_name[ind]: ","".join(short_net_name[ind]))
+        # nets.append("".join(short_net_name[ind]))
+        nets.append(net)
 
-        print("Nets: ",nets)
-        GOMLP2.run(pin_csv_file, color_dict, layer_name, nets,results_file,problem_ind)
+    print("Nets: ",nets)
+    GOMLP2.run(pin_csv_file, color_dict, layer_name, nets,results_file,problem_ind)
 
 
 # In[ ]:
