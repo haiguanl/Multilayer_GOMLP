@@ -18,6 +18,7 @@ The proposed method for multilayer GOMLP is as follows:
 ```
 gomlp
 ├── MLGO_2_with_plots.py
+├── MLGO_2_multilayer.py
 ├── tmp
 ├── color_map.pkl
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
@@ -25,6 +26,7 @@ gomlp
     ├── #EIs results file (e.g. gomlp_results_50nets.csv)
 surrogate
 ├── surrogate_model_new.py
+├── surrogate_model_multilayer.py
 ├── tmp
 ├── output.csv (e.g. output_50nets.csv)
 ├── color_map.pkl
