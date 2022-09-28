@@ -8,6 +8,10 @@ def mydist(p1, p2):
     diff = p1 - p2
     return np.vdot(diff, diff) ** 0.5
 
+def netdist(netA,netB):
+	return surrogate_loss_dict[(netA,neB)]
+
+
 
 
 X = np.random.randn(100, 2)
