@@ -369,20 +369,25 @@ if __name__ == "__main__":
 		for j in range(i+1,len(test_cases[0])):
 			netA = test_cases[0][i]; netB = test_cases[0][j]
 			net_combinations.append([netA,netB])
-	print("net_combinations: ",net_combinations)
+	# print("net_combinations: ",net_combinations)
+	test_cases_all = net_combinations
 
 	# Run surrogate model for all test cases 
+	surrogate_cost_file = "surrogate_cost_2nets_Cost.npy"
+	net_combination_file = "surrogate_cost_2nets_NetComb.npy"
+	np.save(net_combination_file,net_combinations)
+
 	run_surrogate = True; tree_model = False
 	if run_surrogate:  
 		for max_iteration in [1000]:
 			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
 		    verbose=False, shuffle=True)
 			# model = SVC(gamma='auto')
-			results = group_test_runner(model,test_cases,tree_model)
-			print("Results: ", results)
+			results = group_test_runner(model,test_cases_all,tree_model)
+			print("Results: ", dict(results))
 			# save_dict(results,'MLP_ite{ite}'.format(ite=max_iteration))
 			save_dict(results,'Tree')
-
+			np.save(surrogate_cost_file,dict(results))
 
 	# model = SVC(kernel='rbf')
 	# results = group_test_runner(model,test_cases)
