@@ -12,6 +12,7 @@ import colorsys
 import matplotlib.image as mpimg
 import scipy.interpolate
 import matplotlib.colors
+
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.linear_model import LogisticRegression
@@ -20,6 +21,7 @@ from sklearn.svm import SVC
 from scipy.sparse import csr_matrix
 from scipy.sparse.csgraph import minimum_spanning_tree
 from shapely.geometry import LineString
+from scipy.spatial.distance import directed_hausdorff
 
 import itertools
 
@@ -87,6 +89,20 @@ class Helper(object):
 				disjoint_distance += sum(min_dst)
 		num_islands -= len(nets)
 		return [num_islands, disjoint_distance, island_length]
+
+	@staticmethod
+	def calculate_hausdorff_distance_cost(temp_net_coord_total):
+		# print("Debug temp_net_coord_total: ",temp_net_coord_total)
+		# print("Debug temp_net_coord_total[0]: ",temp_net_coord_total[0])
+		temp_net_coord_total = temp_net_coord_total[0]
+		netA = [(temp_net_coord_total[0][i,0],temp_net_coord_total[0][i,1]) 
+		for i in range(temp_net_coord_total[0].shape[0])]
+		# print("Debug netA: ",netA)
+		netB = [(temp_net_coord_total[1][i,0],temp_net_coord_total[1][i,1]) 
+		for i in range(temp_net_coord_total[1].shape[0])]
+		# print("Debug netB: ",netB)
+
+		return directed_hausdorff(netA,netB)[0]
 
 	@staticmethod 
 	def generate_tree_for_problems(temp_net_coord_total):
@@ -217,7 +233,7 @@ class SurrogateModel(object):
 
 class SurrogateRunner(object):
 	@staticmethod
-	def run(color_dict,pin_csv_file,layer_name,nets,model,index,tree_model):
+	def run(color_dict,pin_csv_file,layer_name,nets,model,index,tree_model,hausdorff_model):
 		# print(color_dict, pin_csv_file, layer_name,nets)
 		color_map = None
 		with open(color_dict, 'rb') as file:
@@ -246,12 +262,17 @@ class SurrogateRunner(object):
 			# cost_func += intersections
 			# surrogate_model = SurrogateModel(color_map)
 			# return cost_func
+		if hausdorff_model:
+			# temp_net_coord_total is a list with each net's coordinates as n-by-2 array 
+			distance_cost = Helper.calculate_hausdorff_distance_cost(temp_net_coord_total)
 
 		surrogate_model = SurrogateModel(color_map)
 		boundary_image = surrogate_model.train_and_generate_boundary(model,handles,index,nets)
 		cost_func = [index]
 		if tree_model: 
 			cost_func += [intersections]
+		elif hausdorff_model:
+			cost_func += [distance_cost] 
 		else:
 			cost_func += Helper.calculate_cost_from_image(boundary_image,color_map,nets)
 		# print("Debug cosf_func: ",cost_func)
@@ -259,7 +280,7 @@ class SurrogateRunner(object):
 
 
 
-def group_test_runner(model,list_nets,tree_model):
+def group_test_runner(model,list_nets,tree_model,hausdorff_model):
 	color_dict = 'color_map.pkl'
 	pin_csv_file = "pins_BeagleBone_RevC_human_singleLayer.csv"
 	layer_name = ["LYR5_PWR"]
@@ -272,10 +293,11 @@ def group_test_runner(model,list_nets,tree_model):
 		index = [i for i in range(len(list_nets))]
 		models = [model]*len(list_nets)
 		tree_model = [tree_model]*len(list_nets)
+		hausdorff_model = [hausdorff_model]*len(list_nets)
 		color_dict = [color_dict]*len(list_nets)
 		pin_csv_file = [pin_csv_file]*len(list_nets)
 		layer_name = [layer_name]*len(list_nets)
-		cost_func = executor.map(SurrogateRunner.run, color_dict,pin_csv_file,layer_name,list_nets,models,index,tree_model)
+		cost_func = executor.map(SurrogateRunner.run, color_dict,pin_csv_file,layer_name,list_nets,models,index,tree_model,hausdorff_model)
 		print("cost_func: ",cost_func)
 
 		for cf in cost_func: 
@@ -373,17 +395,17 @@ if __name__ == "__main__":
 	test_cases_all = net_combinations
 
 	# Run surrogate model for all test cases 
-	surrogate_cost_file = "surrogate_cost_2nets_Cost.npy"
+	surrogate_cost_file = "surrogate_cost_2nets_Cost_Haus.npy"
 	net_combination_file = "surrogate_cost_2nets_NetComb.npy"
 	np.save(net_combination_file,net_combinations)
 
-	run_surrogate = True; tree_model = False
+	run_surrogate = True; tree_model = False; hausdorff_model = True
 	if run_surrogate:  
 		for max_iteration in [1000]:
 			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
 		    verbose=False, shuffle=True)
 			# model = SVC(gamma='auto')
-			results = group_test_runner(model,test_cases_all,tree_model)
+			results = group_test_runner(model,test_cases_all,tree_model,hausdorff_model)
 			print("Results: ", dict(results))
 			# save_dict(results,'MLP_ite{ite}'.format(ite=max_iteration))
 			save_dict(results,'Tree')

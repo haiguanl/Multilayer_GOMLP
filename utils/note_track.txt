@@ -131,7 +131,8 @@ gomlp parameters: num_of_generations: 5, sol_per_pop: 4
 
 *******************************
 10/03:
-
+1. Study new metrics (core, hierarchical): Hausdorff, EMD, etc.
+	Under: surrogate\surrogate_model_multilayer.py
 
 
 
