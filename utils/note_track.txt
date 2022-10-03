@@ -129,6 +129,12 @@ gomlp parameters: num_of_generations: 5, sol_per_pop: 4
 1. Implemented the tree model (when call surrogate_model_new.py, set the tree model button in group_test_runner(...,tree_model)
 
 
+*******************************
+10/03:
+
+
+
+
 
 IDEA:
 
