@@ -19,7 +19,9 @@ def netdist(netA_ind,netB_ind):
 
 # X = np.random.randn(100, 1)
 net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb.npy")
-X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
+# X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
+X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
+
 X = X.tolist()
 # print(X)
 X = [val for key,val in X.items()]
@@ -28,8 +30,8 @@ print("Nets combinations: ",net_combination)
 
 surrogate_loss_dict = {}
 for i in range(net_combination.shape[0]):
-	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = X[i] + np.random.randint(1,100)
-	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = X[i] + np.random.randint(1,100)
+	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = X[i] #+ np.random.randint(1,100)
+	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = X[i] #+ np.random.randint(1,100)
 
 print("surrogate_loss_dict: ",surrogate_loss_dict)
 
