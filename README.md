@@ -19,6 +19,7 @@ The proposed method for multilayer GOMLP is as follows:
 gomlp
 ├── MLGO_2_with_plots.py
 ├── MLGO_2_multilayer.py
+├── MLGO_2_multilayer_withHierarchi.py (! manual pending)
 ├── hierarch_cluster_custom_dist.py
 ├── tmp
 ├── color_map.pkl
