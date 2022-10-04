@@ -95,6 +95,10 @@ The generated problem file is ```output.csv```, which contains the net names and
 #### 4. Running hierarchical clustering:
 The code ```gomlp/hierarch_cluster_custom_dist.py``` runs the hierarchical clustering for nets in a design based on surrogate cost. The clustering will be used to decide the net assignment given specific number of #layers budget
 
+<p align="center">
+<img src="Fig/Denrdogram_and_Nets.png" alt="drawing" width="800">
+</p>
+
 
 #### 5. Analysis code:
 The following codes are used for analyzing the results:
