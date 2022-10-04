@@ -19,6 +19,7 @@ The proposed method for multilayer GOMLP is as follows:
 gomlp
 ├── MLGO_2_with_plots.py
 ├── MLGO_2_multilayer.py
+├── hierarch_cluster_custom_dist.py
 ├── tmp
 ├── color_map.pkl
 ├── pin_file (e.g. pins_BeagleBone_RevC_human_singleLayer.csv) 
@@ -91,7 +92,11 @@ Under directory ```utils```, specificy the problem pin files and combination of 
  - number_of_problems: number of problems that need to be generated
 The generated problem file is ```output.csv```, which contains the net names and their combinations
 
-#### 4. Analysis code:
+#### 4. Running hierarchical clustering:
+The code ```gomlp/hierarch_cluster_custom_dist.py``` runs the hierarchical clustering for nets in a design based on surrogate cost. The clustering will be used to decide the net assignment given specific number of #layers budget
+
+
+#### 5. Analysis code:
 The following codes are used for analyzing the results:
 - ```analyze_surrogate_gomlp_corr.py```: analyzing the correlation between results (#EIs) from GOMLP and surrogate models (MLP, SVC, etc.)
 
