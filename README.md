@@ -93,12 +93,19 @@ Under directory ```utils```, specificy the problem pin files and combination of 
 The generated problem file is ```output.csv```, which contains the net names and their combinations
 
 #### 4. Running hierarchical clustering:
-The code ```gomlp/hierarch_cluster_custom_dist.py``` runs the hierarchical clustering for nets in a design based on surrogate cost. The clustering will be used to decide the net assignment given specific number of #layers budget
-
+The code ```gomlp/hierarch_cluster_custom_dist.py``` runs the hierarchical clustering for nets in a design based on surrogate cost. The clustering will be used to decide the net assignment given specific number of #layers budget, as shown in the figure below. 
 <p align="center">
-<img src="Fig/Denrdogram_and_Nets.png" alt="drawing" width="800">
+<img src="Fig/Denrdogram_and_Nets.png" alt="drawing" width="950">
 </p>
 
+Under directory ```gomlp```, specify the following files in code ```hierarch_cluster_custom_dist.py``` and run the code below
+Files to specify: 
+- Net combination file (net_combination e.g. ../surrogate/surrogate_cost_2nets_NetComb.npy)
+- Surrogate cost file (X, e.g.: ../surrogate/surrogate_cost_2nets_Cost_Haus.npy)
+- Results file (output_file e.g.: ayer_assignment.pkl), this file will stores the net clutering (in other words layer assignments in a dictionary format)
+ ```
+ python hierarch_cluster_custom_dist.py
+ ```
 
 #### 5. Analysis code:
 The following codes are used for analyzing the results:
