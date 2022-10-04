@@ -1,7 +1,9 @@
 import numpy as np
-from scipy.cluster.hierarchy import fclusterdata,fcluster
 import matplotlib.pyplot as plt 
 import scipy.cluster.hierarchy as shc
+import pickle
+
+from scipy.cluster.hierarchy import fclusterdata,fcluster
 
 
 def mydist(p1, p2):
@@ -68,6 +70,8 @@ max_d = 1.1*1e10
 clusters = fcluster(l_matrix, max_d, criterion='distance')
 print("Clusters: ", clusters)
 # Dump clusters
+output_file = "layer_assignment.pkl"
+
 cluster_list = {}; cluster_num_seen = set()
 for j,i in enumerate(clusters): 
 	if i not in cluster_num_seen: 
@@ -75,9 +79,13 @@ for j,i in enumerate(clusters):
 		cluster_list[i] = [nets_name_dict[j]]
 	else:
 		cluster_list[i].append(nets_name_dict[j])
-
 print("cluster_list: ",cluster_list)
+with open("results/"+output_file, 'wb') as f:
+    pickle.dump(cluster_list, f)
 
+# with open("results/"+output_file, 'rb') as f:
+#     cluster_list_check = pickle.load(f)
+# print("cluster_list check: ",cluster_list_check)
 # print("Debug length check: ",len(clusters)==len(nets))
 
 
