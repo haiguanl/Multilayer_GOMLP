@@ -726,7 +726,7 @@ if __name__ == '__main__':
     # Previous 
     internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
     # With hierarchical clustering results 
-    output_file = "layer_assignment.pkl"
+    output_file = "layer_assignment_emd.pkl"
     with open("results/"+output_file, 'rb') as f:
         cluster_dict = pickle.load(f)
     print("cluster_dict: ",cluster_dict)

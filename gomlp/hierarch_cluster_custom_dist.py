@@ -23,8 +23,8 @@ def netdist(netA_ind,netB_ind):
 net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb.npy")
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
-# X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
-X = np.load("../surrogate/surrogate_cost_2nets_Cost_Rand.npy", allow_pickle=True)
+X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
+# X = np.load("../surrogate/surrogate_cost_2nets_Cost_Rand.npy", allow_pickle=True)
 
 
 X = X.tolist()
@@ -58,7 +58,7 @@ nets_in_number = np.array(nets_in_number).reshape(-1,1)
 # print(np.allclose(fclust1, fclust2))
 # print(fclust2)
 
-l_matrix = shc.linkage(nets_in_number,metric=netdist)
+l_matrix = shc.linkage(nets_in_number,metric=netdist,method="complete")
 linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist,method="complete"))
 # Method option: "single", "complete", "average"
 
