@@ -22,7 +22,10 @@ def netdist(netA_ind,netB_ind):
 # X = np.random.randn(100, 1)
 net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb.npy")
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
-X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
+# X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
+# X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
+X = np.load("../surrogate/surrogate_cost_2nets_Cost_Rand.npy", allow_pickle=True)
+
 
 X = X.tolist()
 # print(X)
@@ -56,8 +59,8 @@ nets_in_number = np.array(nets_in_number).reshape(-1,1)
 # print(fclust2)
 
 l_matrix = shc.linkage(nets_in_number,metric=netdist)
-linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist))
-
+linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist,method="complete"))
+# Method option: "single", "complete", "average"
 
 # plt.figure(figsize=(10, 7))  
 # plt.title("Dendrograms")  
@@ -70,7 +73,7 @@ max_d = 1.1*1e10
 clusters = fcluster(l_matrix, max_d, criterion='distance')
 print("Clusters: ", clusters)
 # Dump clusters
-output_file = "layer_assignment.pkl"
+output_file = "layer_assignment_emd.pkl"
 
 cluster_list = {}; cluster_num_seen = set()
 for j,i in enumerate(clusters): 

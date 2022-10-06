@@ -123,6 +123,7 @@ class Helper(object):
 		assignment = linear_sum_assignment(d)
 		n = netA.shape[0] * netB.shape[0]
 		return d[assignment].sum()/n
+		# return np.random.randint(10,20)
 
 	@staticmethod 
 	def generate_tree_for_problems(temp_net_coord_total):
