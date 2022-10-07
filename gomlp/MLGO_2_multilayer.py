@@ -675,9 +675,11 @@ class GOMLP2:
           for j in range(len(nets)):
               net_pins = layer.loc[layer['Net'] == nets[j]]
               net_pins = net_pins[['X', 'Y']]
+              # print("Debug net_pins: ",net_pins)
+              plt.scatter(net_pins['X'],net_pins['Y'])
               net_coord = net_pins.to_numpy()
               fixed_metaballs += Helper.convert_to_handle_list(net_coord, j)
-
+      plt.show()
       num_handle = 30
       # print(color_map)
       image = Helper.display_fixed_pins(fixed_metaballs)
@@ -764,6 +766,7 @@ if __name__ == '__main__':
     
     problem_ind = 1
     internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
+    # internal_nets_list = ['UART2_RXD', 'MDIO_CLK']
     print("internal_nets_list: ",internal_nets_list)
     print("net_list length: ",len(internal_nets_list))    
 
