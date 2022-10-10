@@ -36,8 +36,14 @@ X = [val for key,val in X.items()]
 # offset = 1.8e10
 surrogate_loss_dict = {}
 for i in range(net_combination.shape[0]):
-	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = 1/X[i] #+ np.random.randint(1,100)
-	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = 1/X[i] #+ np.random.randint(1,100)
+	# inverse
+	# surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = 1/X[i] #+ np.random.randint(1,100)
+	# surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = 1/X[i] #+ np.random.randint(1,100)
+	# Positive offset - metric
+	offset = 1.9e10
+	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = offset-X[i] #+ np.random.randint(1,100)
+	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = offset-X[i] #+ np.random.randint(1,100)
+
 
 # print("surrogate_loss_dict: ",surrogate_loss_dict)
 

@@ -766,7 +766,7 @@ if __name__ == '__main__':
     
     problem_ind = 1
     internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
-    # internal_nets_list = ['UART2_RXD', 'MDIO_CLK']
+    internal_nets_list = ['USBDP_UP', 'F_ADBUS0']
     print("internal_nets_list: ",internal_nets_list)
     print("net_list length: ",len(internal_nets_list))    
 
