@@ -22,8 +22,8 @@ def netdist(netA_ind,netB_ind):
 # X = np.random.randn(100, 1)
 net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb.npy")
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
-# X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
-X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
+X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
+# X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost_Rand.npy", allow_pickle=True)
 
 
@@ -40,7 +40,7 @@ for i in range(net_combination.shape[0]):
 	# surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = 1/X[i] #+ np.random.randint(1,100)
 	# surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = 1/X[i] #+ np.random.randint(1,100)
 	# Positive offset - metric
-	offset = 1.9e10
+	offset = 8e10
 	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = offset-X[i] #+ np.random.randint(1,100)
 	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = offset-X[i] #+ np.random.randint(1,100)
 
