@@ -107,8 +107,12 @@ Files to specify:
  ```
  python hierarch_cluster_custom_dist.py
  ```
+ 
+#### 5. Running complete multilayer-GOMLP: 
+Running the complete flow of multilayer-GOMLP mainly include 3 moodules: calculate customized distance metrics, run hierarchical clustering, run 2D GOMLP for each clusters, specific details are shown in the figure below:
 
-#### 5. Analysis code:
+
+#### 6. Analysis code:
 The following codes are used for analyzing the results:
 - ```analyze_surrogate_gomlp_corr.py```: analyzing the correlation between results (#EIs) from GOMLP and surrogate models (MLP, SVC, etc.)
 
