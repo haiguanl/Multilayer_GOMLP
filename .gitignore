@@ -5,6 +5,7 @@ __pycache__/
 
 # Customize
 gomlp/tmp
+gomlp/converged
 gomlp/results
 gomlp/.DS_Store
 
