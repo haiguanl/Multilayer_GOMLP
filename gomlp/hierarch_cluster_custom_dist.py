@@ -37,12 +37,12 @@ X = [val for key,val in X.items()]
 surrogate_loss_dict = {}
 for i in range(net_combination.shape[0]):
 	# inverse
-	# surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = 1/X[i] #+ np.random.randint(1,100)
-	# surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = 1/X[i] #+ np.random.randint(1,100)
+	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = 1/X[i] #+ np.random.randint(1,100)
+	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = 1/X[i] #+ np.random.randint(1,100)
 	# Positive offset - metric
-	offset = 8e10
-	surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = offset-X[i] #+ np.random.randint(1,100)
-	surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = offset-X[i] #+ np.random.randint(1,100)
+	# offset = 8e10
+	# surrogate_loss_dict[(net_combination[i,0],net_combination[i,1])] = offset-X[i] #+ np.random.randint(1,100)
+	# surrogate_loss_dict[(net_combination[i,1],net_combination[i,0])] = offset-X[i] #+ np.random.randint(1,100)
 
 
 # print("surrogate_loss_dict: ",surrogate_loss_dict)
@@ -76,7 +76,7 @@ linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist,method
 # print("linkage_matrix: ",linkage_matrix)
 
 # Retrive clusters
-max_d = 1.1*1e10
+max_d = 10e-11
 clusters = fcluster(l_matrix, max_d, criterion='distance')
 print("Clusters: ", clusters)
 # Dump clusters

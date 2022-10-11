@@ -289,15 +289,17 @@ class Genetic(object):
     # solution per population : to 
     def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
-        self.num_of_generations = 10
-        self.sol_per_pop = 4
+        self.num_of_generations = 2#10
+        self.sol_per_pop = 1
         self.nets = nets
         self.fixed_metaballs = fixed_metaballs
         self.color_map = color_map
         self.num_handles = num_handles
         self.image_dtm = image_dtm
         self.net_index = []
-        self.weights = {'num_islands': 0.9, 'disjoint_distance': 0.9, 'island_length': 0.30 , 'contour_dtm':0.50}
+        # default 
+        # self.weights = {'num_islands': 0.9, 'disjoint_distance': 0.9, 'island_length': 0.30 , 'contour_dtm':0.50}
+        self.weights = {'num_islands': 0.9, 'disjoint_distance': 0.9, 'island_length': 0.00 , 'contour_dtm':0.00}
         self.best_fitness = []
         self.results_file = results_file
         self.problem_id = problem_id
@@ -476,8 +478,8 @@ class Genetic(object):
                         # plt.show()
                 plt.axis('off')
                 if Parameter.SAVE_FLAG:
-                  Path(Parameter.SAVE_LOCATION+str(index)).mkdir(parents=True, exist_ok=True)
-                  plt.savefig(Parameter.SAVE_LOCATION+str(index)+'/'+str(gen)+'.png')
+                  Path(Parameter.SAVE_LOCATION+"/problem"+str(self.problem_id)+"/"+str(index)).mkdir(parents=True, exist_ok=True)
+                  plt.savefig(Parameter.SAVE_LOCATION+"/problem"+str(self.problem_id)+"/"+str(index)+'/'+str(gen)+'.png')
             plt.clf()
             plt.close()
 
@@ -493,6 +495,7 @@ class Genetic(object):
             fitness = executor.map(self.calc_fitness, population, index,gen)
             for fit_val in fitness:
                 fitness_data.append(fit_val)
+
         # island.sort(key=lambda x: x[0])
         col_names = ['num_islands','island_length','disjoint_distance','contour_dtm']
         fitness_data = pd.DataFrame(fitness_data, columns =col_names+['index'])
@@ -563,7 +566,7 @@ class Genetic(object):
             fitness = self.calc_pop_fitness(new_population,gen)
             sorted_fitness = []
             fit = []
-            if verbose: print('\nRunning @ Generation: ', gen, "->", [fitness[i][0] for i in range(len(fitness))])
+            if verbose: print('\nRunning Generation: ', gen, "->", [fitness[i][0] for i in range(len(fitness))])
             for i in range(self.sol_per_pop):
                 sorted_fitness.append(fitness[i][1])
                 fit.append(fitness[i][0])
@@ -612,7 +615,7 @@ class Genetic(object):
               best_fit = fitness[0][0]
               best_params = fitness[0][2]
             fitness = fit
-            if verbose: print('Running @ Generation: ', gen, "->", fitness)
+            if verbose: print('Running Generation: ', gen, "->", fitness)
             # 07/07/22-debug
             # if gen % 5 == 0:
                 # Helper.display_metaballs([new_population[0]], self.fixed_metaballs, self.color_map, self.nets,
@@ -651,7 +654,9 @@ class Parameter(object):
     mutation = {'sd_x': board_width * .1, 'sd_y': board_height * .1}
     #save best generation png in generation folders
     SAVE_FLAG = True
-    SAVE_LOCATION = '/content/drive/MyDrive/converged/'
+    # SAVE_LOCATION = '/content/drive/MyDrive/converged/'
+    SAVE_LOCATION = './converged/'
+
     #plot progress graph for cost function
     PLOT_FLAG = True
 
