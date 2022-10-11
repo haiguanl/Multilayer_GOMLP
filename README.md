@@ -110,7 +110,9 @@ Files to specify:
  
 #### 5. Running complete multilayer-GOMLP: 
 Running the complete flow of multilayer-GOMLP mainly include 3 moodules: calculate customized distance metrics, run hierarchical clustering, run 2D GOMLP for each clusters, specific details are shown in the figure below:
-
+<p align="center">
+<img src="Fig/flow-multi-gomlp.png" alt="drawing" width="750">
+</p>
 
 #### 6. Analysis code:
 The following codes are used for analyzing the results:
