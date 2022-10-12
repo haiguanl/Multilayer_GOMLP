@@ -289,8 +289,8 @@ class Genetic(object):
     # solution per population : to 
     def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
-        self.num_of_generations = 2#10
-        self.sol_per_pop = 1
+        self.num_of_generations = 25
+        self.sol_per_pop = 10
         self.nets = nets
         self.fixed_metaballs = fixed_metaballs
         self.color_map = color_map

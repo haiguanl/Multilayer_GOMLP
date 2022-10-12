@@ -76,7 +76,7 @@ linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist,method
 # print("linkage_matrix: ",linkage_matrix)
 
 # Retrive clusters
-max_d = 10e-11
+max_d = 8e-11
 clusters = fcluster(l_matrix, max_d, criterion='distance')
 print("Clusters: ", clusters)
 # Dump clusters
