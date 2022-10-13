@@ -290,7 +290,7 @@ class Genetic(object):
     def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
         self.num_of_generations = 25
-        self.sol_per_pop = 10
+        self.sol_per_pop = 2
         self.nets = nets
         self.fixed_metaballs = fixed_metaballs
         self.color_map = color_map
@@ -303,6 +303,7 @@ class Genetic(object):
         self.best_fitness = []
         self.results_file = results_file
         self.problem_id = problem_id
+        self.converge_indcator = False
 
     def init_population(self):
         new_population = []
@@ -456,7 +457,9 @@ class Genetic(object):
                             _min = min(_min, math.hypot(c_pts[i][0] - c_pts[j][0], c_pts[i][1] - c_pts[j][1]))
                         min_dst.append(_min)
                     disjoint_distance += sum(min_dst)
+            # self.converge_indcator = False
             if num_islands == len(self.nets):
+                self.converge_indcator = True
                 # print('converged')
                 # 07/07/22-debug
                 # pickle.dump(clf, open('converged_model.sav', 'wb'))
@@ -562,8 +565,12 @@ class Genetic(object):
         new_population = self.init_population()
         gen_rate = []
         w_len = []
+        converge_ind = None
         for gen in range(self.num_of_generations):
             fitness = self.calc_pop_fitness(new_population,gen)
+            if self.converge_indcator: 
+                print("Current problem convegered! Terminating GA loop...")
+                break
             sorted_fitness = []
             fit = []
             if verbose: print('\nRunning Generation: ', gen, "->", [fitness[i][0] for i in range(len(fitness))])
@@ -636,6 +643,7 @@ class Genetic(object):
                 for _ in range(repeat):
                     wheel.append([e, new_population[e]])
             new_population = self.gen_new_population(elite, wheel)
+        
         print('\nFinal result',np.array(self.best_fitness)[:, 0])
         with open(self.results_file,"a") as f: 
             writer = csv.writer(f)
