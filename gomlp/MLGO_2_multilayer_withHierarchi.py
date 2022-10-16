@@ -289,7 +289,7 @@ class Genetic(object):
     # solution per population : to 
     def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
-        self.num_of_generations = 25
+        self.num_of_generations = 2
         self.sol_per_pop = 2
         self.nets = nets
         self.fixed_metaballs = fixed_metaballs
@@ -391,7 +391,7 @@ class Genetic(object):
         contours_dtm = -1
         # if score == 1.0:
         # print("Debug score: ",score)
-        if score > 0.5:
+        if score > 0.01:
 
             num_islands = 0
             disjoint_distance = 0
@@ -459,6 +459,7 @@ class Genetic(object):
                     disjoint_distance += sum(min_dst)
             # self.converge_indcator = False
             if num_islands == len(self.nets):
+                print("Convergence...")
                 self.converge_indcator = True
                 # print('converged')
                 # 07/07/22-debug
@@ -568,6 +569,7 @@ class Genetic(object):
         converge_ind = None
         for gen in range(self.num_of_generations):
             fitness = self.calc_pop_fitness(new_population,gen)
+            # print("self.converge_indcator: ",self.converge_indcator)
             if self.converge_indcator: 
                 print("Current problem convegered! Terminating GA loop...")
                 break
