@@ -407,6 +407,7 @@ if __name__ == "__main__":
 	# testcase_ids = [i for i in range(129)]
 	number_of_problems = 1
 	testcase_ids = [i for i in range(number_of_problems)]
+	# testcase_ids = [12] # Exp: 10/19/22
 	# test_cases = generate_test_cases_from_csv('output_6plus.csv',testcase_ids) 
 	test_cases = generate_test_cases_from_csv('output_50nets.csv',testcase_ids) 
 
@@ -422,12 +423,13 @@ if __name__ == "__main__":
 	test_cases_all = net_combinations
 
 	# Run surrogate model for all test cases 
-	surrogate_cost_file = "surrogate_cost_2nets_Cost_EMD.npy"
+	# surrogate_cost_file = "surrogate_cost_2nets_Cost_EMD.npy"
+	surrogate_cost_file = "surrogate_cost_2nets_Cost_Haus.npy"
 	net_combination_file = "surrogate_cost_2nets_NetComb.npy"
 	np.save(net_combination_file,net_combinations)
 
 	run_surrogate = True; tree_model = False
-	hausdorff_model = False; emd_model = True
+	hausdorff_model = True; emd_model = False
 	if run_surrogate:  
 		for max_iteration in [1000]:
 			model = MLPClassifier(solver='adam', activation='tanh', hidden_layer_sizes=(50, 50), max_iter=max_iteration,
