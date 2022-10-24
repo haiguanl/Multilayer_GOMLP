@@ -768,10 +768,11 @@ if __name__ == '__main__':
     problem_ind = 1
     internal_nets_list = [netlist[j] for j,i in enumerate(problems[problem_ind,:]) if i=="1"]
     # internal_nets_list = ['COL/CRS_DV/MODE2', 'PDDR_A9']
-    internal_nets_list = ['BDBUS4', 'DDR_A14']
-
-
-
+    # internal_nets_list = ['VREFP_ADC', 'F_EESK', 'PDDR_DQSN0', 'PDDR_D13', 
+    # 'MDIO_CLK', 'BL_OUT', 'USBDP_UP', 'UART4_TXD']
+    # internal_nets_list = ['PDDR_A9', 'F_ADBUS0', 'USB0_VBUS_PWR', 'COL/CRS_DV/MODE2', 'I',
+    #  'SYS_5V', '3', 'PDDR_DQS0', 'BDBUS4', 'NC0', 'UART2_RXD', 'TIMER6']
+    internal_nets_list = ['UART2_RXD', 'SYS_5V', 'MDIO_CLK']
     print("internal_nets_list: ",internal_nets_list)
     print("net_list length: ",len(internal_nets_list))    
 
