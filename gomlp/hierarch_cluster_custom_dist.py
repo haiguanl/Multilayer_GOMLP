@@ -20,10 +20,10 @@ def netdist(netA_ind,netB_ind):
 
 
 # X = np.random.randn(100, 1)
-net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb.npy")
+net_combination = np.load("../surrogate/surrogate_cost_2nets_NetComb_allOne.npy")
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost.npy", allow_pickle=True)
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus.npy", allow_pickle=True)
-X = np.load("../surrogate/surrogate_cost_2nets_Cost_EMD.npy", allow_pickle=True)
+X = np.load("../surrogate/surrogate_cost_2nets_Cost_Haus_allOne.npy", allow_pickle=True)
 # X = np.load("../surrogate/surrogate_cost_2nets_Cost_Rand.npy", allow_pickle=True)
 
 
@@ -76,7 +76,7 @@ linkage_matrix = shc.dendrogram(shc.linkage(nets_in_number,metric=netdist,method
 # print("linkage_matrix: ",linkage_matrix)
 
 # Retrive clusters
-max_d = 1.7e-9
+max_d = 0.5e-9
 clusters = fcluster(l_matrix, max_d, criterion='distance')
 print("Clusters: ", clusters)
 # Dump clusters

@@ -751,7 +751,7 @@ if __name__ == '__main__':
  # 'PDDR_DQSN1']
 
 
-    problem_files = "output_50nets.csv"
+    problem_files = "output_50nets_allOne.csv"
     problems = np.loadtxt(problem_files,delimiter=",",dtype=str)
     netlist = problems[0,:]
     results_file = "gomlp_results_50nets.csv"

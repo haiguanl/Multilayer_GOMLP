@@ -289,8 +289,8 @@ class Genetic(object):
     # solution per population : to 
     def __init__(self, nets, fixed_metaballs, color_map, num_handles, image_dtm,results_file,problem_id):
         # GA parameters 
-        self.num_of_generations = 2
-        self.sol_per_pop = 2
+        self.num_of_generations =  25
+        self.sol_per_pop =  30 #10
         self.nets = nets
         self.fixed_metaballs = fixed_metaballs
         self.color_map = color_map
@@ -726,7 +726,7 @@ if __name__ == '__main__':
     color_dict = 'color_map.pkl'
     layer_name = ["LYR5_PWR"]
 
-    problem_files = "output_50nets.csv"
+    problem_files = "output_50nets_allOne.csv"
     problems = np.loadtxt(problem_files,delimiter=",",dtype=str)
     netlist = problems[0,:]
     results_file = "gomlp_results_50nets.csv"
